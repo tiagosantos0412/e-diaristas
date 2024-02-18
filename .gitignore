@@ -43,3 +43,4 @@ Thumbs.db
 
 # Ignore database credentials file
 /db_credentials.txt
+settings.py
