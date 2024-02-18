@@ -1,0 +1,129 @@
+Inciando um Novo projeto Django / Python / Mysql
+
+Criar uma pasta para isolar nossas instalações de pacote, uma virtual env (venv):
+python -m venv venv
+Ativar esta venv:
+venv\Scripts\activate
+Caso der erro na ativação por segurança do powershell:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Atualizar o pacote pip do Python:
+python.exe -m pip install --upgrade pip
+
+Instalar o pacote do Django:
+pip install Django
+
+Instalando o pacote do MySql(MySql Client):
+pip install mysqlclient
+
+Verificar os pacotes instalados:
+pip freeze
+(venv) PS C:\e-diaristas> pip freeze
+asgiref==3.7.2
+Django==5.0.2
+mysqlclient==2.2.4
+sqlparse==0.4.4
+tzdata==2024.1
+
+Criando o projeto:
+django-admin startproject ediaristas
+Criando a aplicação:
+Navegue até a pasta do projeto criado:
+No mesmo do arquivo manage.py excute:
+python manage.py startapp administracao
+com a aplicação criada insira na primeira linha do array INSTALLED_APPS = [] do arquivo settings.py
+INSTALLED_APPS = [
+    'administracao',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+Configurando o banco de dados:
+Instalando o pacote do client do MySql:
+pip install mysqlclient
+Acessando o MySql via terminal:
+mysql -u root -p
+Insira a senha:
+********
+Criando o banco de dados ediaristas:
+create database ediaristas;
+Colocando o banco em uso:
+use ediaristas;
+exibindo as tabelas:
+show tables;
+exit para sair do MySql.
+Configurando o banco de dados no arquivo settings.py:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ediaristas',
+        'HOST': 'localhost',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': '********'
+    }
+}
+
+Criando uma Migração:
+python manage.py migrate
+Conferindo as tabelas criadas com a migration:
+Acessando o MySql via terminal:
+mysql -u root -p
+Insira a senha:
+********
+use ediaristas;
+show tables;
+mysql> show tables;
++----------------------------+
+| Tables_in_ediaristas       |
++----------------------------+
+| auth_group                 |
+| auth_group_permissions     |
+| auth_permission            |
+| auth_user                  |
+| auth_user_groups           |
+| auth_user_user_permissions |
+| django_admin_log           |
+| django_content_type        |
+| django_migrations          |
+| django_session             |
++----------------------------+
+10 rows in set (0.11 sec)
+exit para sair do MySql via taerminal.
+
+Configuração do projeto com o pacote django-admin-lte:
+Instalação do pacote:
+pip install django-adminlte-3
+Após instalar o pacote precisamos setá-lo no array INSTALLED_APPS[] do arquivo settings.py
+
+Criar uma rota para chamar um método na view e redenrizar o template
+Na aplicação administracao criar um arquivo chamado urls.py e um diretório com o nome de templates
+Criando e configurando rotas no django:
+No arquivo urls.py  importar o path do django.urls criar um array de urls urlpatterns e uma rota (path):
+from django.urls import path
+urlpatterns = [
+    path('exemplo', exemplo, name='exemplo')
+]
+
+No arquivo views.py importar o render (caso não esteja importado) e criar o método exemplo:
+from django.shortcuts import render
+def exemplo(request):
+    return render(request, 'exemplo.html')
+
+Em seguida novamente no arquivo urls.py importar o exemplo de views.py:
+from .views import exemplo
+
+No arquivo urls.py agora do projeto ediaristas, importar as rotas da aplicação administracao:
+No mesmo nível do arquivo manage.py executar:
+python manage.py runserver
+
+Para configurar na página o template admin-lte:
+no arquivo exemplo.html logo abaixo do <!DOCTYPE html> inserir:
+{% extends 'adminlte/base.html' %}
+Dentro da tag <body> inserir:
+{% block content %}
+{% endblock content %}
