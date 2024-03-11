@@ -1,0 +1,40 @@
+Definir os Moldels na parte administrativa:
+Módulo de serviços:
+    Criar uma classe Serviço que herdade moldes.Moldel
+        class Servico(models.Model):
+            definir os campos que iremos armazenar...
+            ICONE_CHOICES = (
+                ('twf-cleaning-1', 'twf-cleaning-1'),
+                ('twf-cleaning-2', 'twf-cleaning-2'),
+                ('twf-cleaning-3', 'twf-cleaning-3')
+            )
+            nome = models.CharField(max_length=50, null=False, blank=False)
+            valor_minimo = models.FloatField(null=False, blank=False)
+            qtd_horas = models.IntegerField(null=False, blank=False)
+            porcentagem_comissao = models.FloatField(null=False, blank=False)
+            horas_quarto = models.IntegerField(null=False, blank=False)
+            valor_quarto = models.FloatField(null=False, blank=False)
+            horas_sala = models.IntegerField(null=False, blank=False)
+            valor_sala = models.FloatField(null=False, blank=False)
+            horas_banheiro = models.IntegerField(null=False, blank=False)
+            valor_banheiro = models.FloatField(null=False, blank=False)
+            horas_cozinha = models.IntegerField(null=False, blank=False)
+            valor_cozinha = models.FloatField(null=False, blank=False)
+            horas_quintal = models.IntegerField(null=False, blank=False)       
+            valor_quintal = models.FloatField(null=False, blank=False)
+            horas_outros = models.IntegerField(null=False, blank=False)
+            valor_outros = models.FloatField(null=False, blank=False)
+            icone = models.CharField(NULL=False, blank=False, choices=ICONE_CHOICES, max_length=14)
+            posicao = models.IntegerField(null=False)
+Após setar os models realizar a migration:
+    python manage.py makemigrations
+    Após rodar o comando para criar as migrações, será necessário executar as mirações:
+        python manage.py migrate
+Por fim, verificar no banco de dados se a tabela foi criada corretamente:
+	colocar o banco de dados ediaristas em uso:
+		use ediaristas;
+		mysql -u root -p
+		Comando para mostrar as tabelas cadastradas:
+			show tables;
+			Comando paa detalhar a tabela:
+            desc administracao_servico;
