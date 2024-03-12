@@ -1,0 +1,44 @@
+Criando um formulário para cadastro do serviço: (Form é uma camada do Django que faz uma validação dos dados)
+    No diretório administração, crie um novo arquivo chamado forms.py
+        Crie uma classe ServicoForm que herde de forms.ModelsForm
+            from django import forms
+            from .models import Servico
+            class ServicoForm(forms.ModelsForm):
+                A ideia agora é definir que todos os campos da classe do model de serviço, serão exibidos no formulário de cadastro de serviços.
+                class Meta:
+                    model = Servico
+                    fields = '__all__'
+    No arquivos views.py, remova o método de exemplo se tiver e crie a fução para exibir o formulário de serviço e criando uma instância do ServicoForm:
+        from .forms import ServicoForm
+
+        def cadastrar_servico(request):
+            form_servico = ServicoForm()
+            return render (request, 'servicos/form_servico.html', {"form_servico": form_servico})
+    No arquivo urls.py setar a rota de servicos/cadastrar executando o método cadastrar_servico:
+        urlpatterns = [
+            path('servicos/cadastrar', cadastrar_servico, name='cadastrar_servico'),
+        ]
+    No diretório templates crie um novo diretório com o nome de servicos:
+        No diretório servicos, crie um arquivo com o nome de form_servico.html:
+
+            <!DOCTYPE html>
+            {% extends 'adminlte/base.html' %}
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Exemplo</title>
+            </head>
+            <body>
+                {% block content %}
+                    <form method="POST">
+                        {{ form_servico.as_p }}
+                        <button class="btn btn-primary" type="submit">Cadastrar</button>
+                    </form>
+                {% endblock content %}
+            </body>
+            </html>
+        
+
+Criamos o form de serviço com base no model de serviço, todos os campos foram selecionados, por isso utilziamos o fields = '__all__', e geramos um formulário html. A view cria uma instância vazia desse formulário, para para o arquivo form_servico.html, que por sua vez exibirá o formulário como um parágrafo.
+

@@ -4,13 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo</title>
+    <title>Cadastrar Serviços</title>
     <!-- Adicione links para seus estilos CSS ou scripts JavaScript aqui -->
 </head>
 <body>
     <!-- Conteúdo da página vai aqui -->
     {% block content %}
-        <h1>Sistema Administrativo</h1>
+        <h1>Cadastrar Serviços</h1>
+        <form method="POST">
+            {{ form_servico.as_p }}
+            <button class="btn btn-primary" type="submit">Cadastrar</btton>
+        </form>
     <!-- Adicione seus scripts JavaScript aqui -->
     {% endblock content %}
 </body>
