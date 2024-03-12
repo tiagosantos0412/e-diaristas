@@ -1,0 +1,36 @@
+Agora que conseuimos renderizar o formulário, com base, no model de serviço.
+O próximo passo será persistir os dados deste formulário em um banco de dados.
+
+A primeira coisa a ser feita,s erá recuperar os dados da nossa requisição, após clicar no botão cadastrar, somente vamos recuperarestes dados, caso o método da requisição for POST. No arquivo views.py faça a seguinte atualização:
+
+    def cadastrar_servico(request):
+        if request.method == 'POST':
+
+            Para validar criaremos uma instância do formulário de serviço...
+            form_servico = ServicoForm(request.POST)
+
+            agora vamos verificar se as informações submetidas são validas...
+            if form_servico.is_valid():
+                form_servico.save() se os dados estiverem validos, será salvo no banco de dados.
+        else:
+            form_servico = ServicoForm()
+        return render(request, 'servcos/form_servico.html', {"form_servico": form_servico})
+
+Após realizar estas configurações, vamos subir a aplicação e tentar submeter o formulário preenchido.
+Será exibido o erro Forbidden 403, pois houve uma falha na verificação do CSRF.   
+    Para corrigir este erro abra o arquivo form_servico.html e antes da chamada do form_servico insira a tag:
+        {% csrf_token %}
+        A tag {% csrf_token %} renderiza um campo de input oculto no formulário HTML, contendo o token CSRF. Quando o formulário é submetido, o Django verifica se o token CSRF enviado na requisição POST é o mesmo que o token associado à sessão do usuário. Se os tokens não coincidirem, a requisição é considerada inválida e é rejeitada.
+
+Vamos tentar submtere novamente o formulário e dessa vez não deverá aparecer a mensagem de erro. Para termos certeza que os dados foram salvos, vamos acessar o banco de dados e verificar a tabela administracao_servico:
+    mysql
+    mysql -u root -p
+    iserir o password
+    use ediaristas;
+    show tables;
+    select * from administracao_servico;
+
+Para alterar o idioma das regras de validação vamos em:
+    ediaristas
+        settings.py
+            LANGUAGE_CODE = 'pt-br'
